@@ -1,0 +1,66 @@
+services:
+
+  # USUARIOS 
+  ms-usuarios:
+    container_name: dan-ms-usuarios
+    image: dan/ms-usuarios:0.0.1-SNAPSHOT
+    ports:
+      - "9000:8080"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+      - "SERVER_PORT=8080"
+      - "SPRING_DATASOURCE_URL=jdbc:postgresql://pgdb:5432/dan-ms"
+      #- "SPRING_DATA_MONGODB_URI=mongodb://dan2021:dan2021@mongo:27017/dan2021"
+      - "EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka"
+    networks:
+      - app
+
+  # PEDIDOS
+  ms-pedidos:
+    container_name: dan-ms-pedidos 
+    image: dan/ms-pedidos:0.0.1-SNAPSHOT
+    ports:
+      - "9001:8080"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+      - "SERVER_PORT=8080"
+      - "SPRING_DATASOURCE_URL=jdbc:postgresql://pgdb:5432/dan-ms"
+      #- "SPRING_DATA_MONGODB_URI=mongodb://dan2021:dan2021@mongo:27017/dan2021"
+      - "EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka"
+    networks:
+      - app
+  
+  # PRODUCTOS
+  ms-productos:
+    container_name: dan-ms-productos 
+    image: dan/ms-productos:0.0.1-SNAPSHOT
+    ports:
+      - "9002:8080"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+      - "SERVER_PORT=8080"
+      - "SPRING_DATASOURCE_URL=jdbc:postgresql://pgdb:5432/dan-ms"
+      #- "SPRING_DATA_MONGODB_URI=mongodb://dan2021:dan2021@mongo:27017/dan2021"
+      - "EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka"
+    networks:
+      - app
+
+  # PAGOS
+  ms-pagos:
+    container_name: dan-ms-pagos 
+    image: dan/ms-pagos:0.0.1-SNAPSHOT
+    ports:
+      - "9003:8080"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+      - "SERVER_PORT=8080"
+      - "SPRING_DATASOURCE_URL=jdbc:postgresql://pgdb:5432/dan-ms"
+      #- "SPRING_DATA_MONGODB_URI=mongodb://dan2021:dan2021@mongo:27017/dan2021"
+      - "EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka"
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge
+      

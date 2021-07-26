@@ -1,0 +1,11 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+
+  - job_name: 'dan-ms'
+  
+    metrics_path: '/actuator/prometheus'
+
+    static_configs:
+      - targets: ['dan-ms-usuarios:8080', 'dan-ms-pedidos:8080', 'dan-ms-productos:8080', 'dan-ms-pagos:8080']
