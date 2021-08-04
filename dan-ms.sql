@@ -45,7 +45,7 @@ create table ms_orders.order_state (order_state_id  serial not null, description
 create table ms_orders.order (order_id  serial not null, shipping_date timestamp not null, order_state_id int4, construction_id int4, primary key (order_id));
 alter table ms_orders.order_state add constraint uk_description unique (description);
 alter table ms_users.construction add constraint uk_description unique (description);
-alter table ms_orders.order_item add constraint uk_product foreign key (product_id) references ms_products.product;
+alter table ms_orders.order_item add constraint fk_product foreign key (product_id) references ms_products.product;
 alter table ms_orders.order_item add constraint fk_order foreign key (order_id) references ms_orders.order;
 alter table ms_orders.order add constraint fk_order_state foreign key (order_state_id) references ms_orders.order_state;
 alter table ms_orders.order add constraint fk_construction foreign key (construction_id) references ms_users.construction;
@@ -59,6 +59,7 @@ alter table ms_products.product add constraint fk_unit foreign key (unit_id) ref
 alter table ms_products.stock_movement add constraint fk_order_item foreign key (order_item_id) references ms_orders.order_item;
 alter table ms_products.stock_movement add constraint fk_provision_item foreign key (provision_item_id) references ms_products.provision_item;
 alter table ms_products.stock_movement add constraint fk_product foreign key (product_id) references ms_products.product;
+alter table ms_products.product add constraint uk_name unique (name);
 
 create table ms_accounting.check (bank varchar(32) not null, payment_date timestamp, number int4 not null, payment_method_id int4 not null, primary key (payment_method_id));
 create table ms_accounting.cash (bill_number int4 not null, payment_method_id int4 not null, primary key (payment_method_id));
