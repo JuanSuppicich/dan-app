@@ -224,8 +224,8 @@ under the License.
          </address>
 
 	   <address name="COLA_PEDIDOS">
-            <multicast/>
-         </address>
+         <multicast/>
+      </address>
 
 
       </addresses>
