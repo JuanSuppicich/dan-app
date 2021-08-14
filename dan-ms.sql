@@ -6,6 +6,7 @@ DROP SCHEMA IF EXISTS ms_users CASCADE;
 DROP SCHEMA IF EXISTS ms_orders CASCADE;
 DROP SCHEMA IF EXISTS ms_products CASCADE;
 DROP SCHEMA IF EXISTS ms_accounting CASCADE;
+DROP SCHEMA IF EXISTS ms_delivery CASCADE;
 
 /*
 CREATE DATABASE "dan-ms"
@@ -22,6 +23,7 @@ CREATE SCHEMA ms_users;
 CREATE SCHEMA ms_orders;
 CREATE SCHEMA ms_products;
 CREATE SCHEMA ms_accounting;
+CREATE SCHEMA ms_delivery;
 
 create table ms_users.customer (customer_id  serial not null, cuit varchar(11) not null, post_date timestamp not null, put_date timestamp, delete_date timestamp, allowed_online boolean default false not null, email varchar(255) not null, max_current_account float8, business_name varchar(32) not null, user_id int4, primary key (customer_id));
 create table ms_users.employee (employee_id  serial not null, email varchar(255) not null, name varchar(32) not null, post_date timestamp not null, put_date timestamp, user_id int4, primary key (employee_id));
@@ -74,6 +76,16 @@ alter table ms_accounting.cash add constraint fk_payment_method foreign key (pay
 alter table ms_accounting.payment add constraint fk_customer foreign key (customer_id) references ms_users.customer;
 alter table ms_accounting.payment add constraint fk_payment_method foreign key (payment_method_id) references ms_accounting.payment_method;
 alter table ms_accounting.transfer add constraint fk_payment_method foreign key (payment_method_id) references ms_accounting.payment_method;
+
+create table ms_delivery.delivery (delivery_id  serial not null, departure timestamp not null, employee_id int4 not null, total_volume float8 not null, total_weight float8 not null, truck_id int4, primary key (delivery_id));
+create table ms_delivery.geolocation (geolocation_id  serial not null, latitude float8 not null, longitude float8 not null, delivery_id int4, primary key (geolocation_id));
+create table ms_delivery.package (package_id  serial not null, arrival_date timestamp not null, customer_cuit varchar(11) not null, delete_date timestamp, package_state varchar(255), post_date timestamp not null, volume float8 not null, weight float8 not null, delivery_id int4, primary key (package_id));
+create table ms_delivery.rel_packages_orders (order_id int4 not null, package_id int4, primary key (order_id));
+create table ms_delivery.truck (truck_id  serial not null, delete_date timestamp, description varchar(32) not null, license varchar(12) not null, max_volume float8 not null, max_weight float8 not null, post_date timestamp not null, tare float8 not null, truck_state varchar(255), primary key (truck_id));
+alter table ms_delivery.delivery add constraint fk_truck foreign key (truck_id) references ms_delivery.truck;
+alter table ms_delivery.geolocation add constraint fk_delivery foreign key (delivery_id) references ms_delivery.delivery;
+alter table ms_delivery.package add constraint fk_delivery foreign key (delivery_id) references ms_delivery.delivery;
+
 
 INSERT INTO ms_users.user_type (description) VALUES
 	('Customer'),
