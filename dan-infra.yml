@@ -108,6 +108,12 @@ services:
       - "ZUUL_ROUTES_PRODUCTS_URL=http://dan-ms-productos:8080/api/products"
       - "ZUUL_ROUTES_ACCOUNTING_PATH=/accounting/**"
       - "ZUUL_ROUTES_ACCOUNTING_URL=http://dan-ms-pagos:8080/api/accounting"
+      - "ZUUL_ROUTES_TRUCKS_PATH=/trucks/**"
+      - "ZUUL_ROUTES_TRUCKS_URL=http://localhost:9004/api/trucks"
+      - "ZUUL_ROUTES_PACKAGES_PATH=/packages/**"
+      - "ZUUL_ROUTES_PACKAGES_URL=http://localhost:9004/api/packages"
+      - "ZUUL_ROUTES_DELIVERIES_PATH=/deliveries/**"
+      - "ZUUL_ROUTES_DELIVERIES_URL=http://localhost:9004/api/deliveries"
     networks:
       - app
 

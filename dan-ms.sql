@@ -39,7 +39,7 @@ alter table ms_users.construction add constraint fk_customer foreign key (custom
 alter table ms_users.construction add constraint fk_construction_type foreign key (construction_type_id) references ms_users.construction_type;
 alter table ms_users.user add constraint fk_user_type foreign key (user_type_id) references ms_users.user_type;
 
-create table ms_products.product (product_id  serial not null, description varchar(64), name varchar(32) not null, price float8 not null, current_stock int4 not null, minimum_stock int4 not null, unit_id int4, primary key (product_id));
+create table ms_products.product (product_id  serial not null, description varchar(64), name varchar(32) not null, price float8 not null, current_stock int4 not null, minimum_stock int4 not null, weight float8 not null, volume float8 not null, unit_id int4, primary key (product_id));
 create table ms_products.unit (unit_id  serial not null, description varchar(255) not null, primary key (unit_id));
 
 create table ms_orders.order_item (order_item_id  serial not null, quantity int4 not null, price float8 not null, product_id int4, order_id int4, primary key (order_item_id));
@@ -78,12 +78,10 @@ alter table ms_accounting.payment add constraint fk_payment_method foreign key (
 alter table ms_accounting.transfer add constraint fk_payment_method foreign key (payment_method_id) references ms_accounting.payment_method;
 
 create table ms_delivery.delivery (delivery_id  serial not null, departure timestamp not null, employee_id int4 not null, total_volume float8 not null, total_weight float8 not null, truck_id int4, primary key (delivery_id));
-create table ms_delivery.geolocation (geolocation_id  serial not null, latitude float8 not null, longitude float8 not null, delivery_id int4, primary key (geolocation_id));
-create table ms_delivery.package (package_id  serial not null, arrival_date timestamp not null, customer_cuit varchar(11) not null, delete_date timestamp, package_state varchar(255), post_date timestamp not null, volume float8 not null, weight float8 not null, delivery_id int4, primary key (package_id));
+create table ms_delivery.package (package_id  serial not null, arrival_date timestamp, customer_cuit varchar(11) not null, delete_date timestamp, package_state varchar(255), post_date timestamp not null, volume float8 not null, weight float8 not null, delivery_id int4, primary key (package_id));
 create table ms_delivery.rel_packages_orders (order_id int4 not null, package_id int4, primary key (order_id));
 create table ms_delivery.truck (truck_id  serial not null, delete_date timestamp, description varchar(32) not null, license varchar(12) not null, max_volume float8 not null, max_weight float8 not null, post_date timestamp not null, tare float8 not null, truck_state varchar(255), primary key (truck_id));
 alter table ms_delivery.delivery add constraint fk_truck foreign key (truck_id) references ms_delivery.truck;
-alter table ms_delivery.geolocation add constraint fk_delivery foreign key (delivery_id) references ms_delivery.delivery;
 alter table ms_delivery.package add constraint fk_delivery foreign key (delivery_id) references ms_delivery.delivery;
 
 
